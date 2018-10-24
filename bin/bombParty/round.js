@@ -91,7 +91,7 @@ class Round {
                     `Jackpot!`,
                     `♂ Take ♂ it ♂ boy ♂`,
                     `Amazing!`,
-                    `${reaction} is my life now!`,
+                    `${message.content} is my life now!`,
                     `You can see red sirens in the distance...`,
                     `You have unlocked a special achievment... Just kidding!`,
                     `Guys! We got a millionaire!`,
