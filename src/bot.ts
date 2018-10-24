@@ -1,5 +1,5 @@
 import Discord from 'discord.js';
-import Game from './game'
+import Game from './bombParty/game'
 import BotChannel from './botChannel';
 
 class Bot {

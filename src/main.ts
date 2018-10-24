@@ -14,6 +14,4 @@ client.on('ready', () => {
 client.on('message', (msg) => {
     bot.receiveMessage(msg);
 })
-
 client.login(process.env.DISCORD_TOKEN);
-
