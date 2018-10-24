@@ -20,6 +20,7 @@ function keepAppUp() {
     const app = express();
     app.listen(8080);
     setInterval(() => {
-        http.get('http://exile-discord.glitch.me/');
+        http.get('http://mingie-bot.glitch.me/');
     }, 8000);
 }
+keepAppUp();

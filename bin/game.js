@@ -19,7 +19,7 @@ class Game {
     }
     static loadDictionary() {
         var content = fs_1.default.readFileSync('words.txt', 'utf8');
-        this.words = content.split('\r\n');
+        this.words = content.split('\n');
     }
     activate() {
         this.active = true;
