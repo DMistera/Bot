@@ -122,9 +122,9 @@ class Round {
                 `Why are you so in love with ${message.content}?`,
                 `This would be a good pick up line: Have you seen my ${message.content}, babe?`,
                 `Baka! Baka! Baka! Where do you find such words?`,
-                `If you lke ${message.content} so much why don't you include it in your CV?`,
+                `If you like ${message.content} so much why don't you include it in your CV?`,
                 `${message.content} was my teacher's name, not a word.`,
-                `You found an easter egg! Just kidding, you don't even know the disctionary!`
+                `You found an easter egg! Just kidding, you don't even know the dictionary!`
             ]);
             msg += `${respone}`;
         }
