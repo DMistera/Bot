@@ -3,6 +3,7 @@ import Discord from 'discord.js';
 const client = new Discord.Client();
 
 import Bot from './bot';
+require('dotenv').config();
 
 var bot = new Bot();
 
@@ -14,5 +15,5 @@ client.on('message', (msg) => {
     bot.receiveMessage(msg);
 })
 
-client.login("MjcyMDgzMzc4Mjc3MTg3NTg1.Dq-5Zg.nAfAj7bRS8NNhRR-8KXeOKlcKmQ");
+client.login(process.env.DISCORD_TOKEN);
 
