@@ -56,7 +56,7 @@ class Round {
         }, this.gameTime * 1000);
     }
     stop() {
-        clearInterval(this.roundEndTimeout);
+        clearTimeout(this.roundEndTimeout);
     }
     receiveMessage(message) {
         var result = this.validateAnswer(message.content);
