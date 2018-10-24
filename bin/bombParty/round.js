@@ -5,27 +5,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const bot_1 = __importDefault(require("../bot"));
 const game_1 = __importDefault(require("./game"));
-const player_1 = __importDefault(require("./player"));
 class Round {
-    constructor(channel, number, endCall) {
+    constructor(channel, number, players, endCall) {
         //Const
         this.gameTime = 15;
         this.sequence = "";
         this.longest = "";
-        this.activePlayers = [];
         this.channel = channel;
         this.number = number;
         this.endCall = endCall;
         this.roundEndTimeout = null;
+        this.activePlayers = players;
     }
     activate() {
         this.generateSequence();
         this.findLongest();
-        bot_1.default.sendMessage(this.channel, `Round ${this.number} has been started! Find a word containting the sequence **${this.sequence.toUpperCase()}**. The longest word has ${this.longest.length} letters! You have ${this.gameTime} seconds!`);
+        bot_1.default.sendMessage(this.channel, `Round ${this.number} has been started! Find a word containting the sequence **${this.sequence.toUpperCase()}**. The longest word has **${this.longest.length}** letters! You have ${this.gameTime} seconds!`);
         this.roundEndTimeout = setTimeout(() => {
             var winner = null;
             var bestTime = Number.MAX_SAFE_INTEGER;
-            var message = `The round has ended! The longest word was ${this.longest}! Here are the results: \n`;
+            var message = `The round has ended! The longest word was **${this.longest}**! Here are the results: \n`;
             var scorePool = 0;
             var bestWord = "";
             this.activePlayers.forEach((e) => {
@@ -41,14 +40,14 @@ class Round {
                 }
                 var score = this.scoreAnswer(e.longest);
                 scorePool += score;
-                message += `${e.user.username} answered ${e.longest} (${e.longest.length} letters) and earned ${score} Mingie Gems!\n`;
+                message += `**${e.user.username}** answered ${e.longest} (${e.longest.length} letters) and earned ${score} Mingie Gems!\n`;
             });
             if (winner == null) {
                 message += `Nobody got a single score :(`;
             }
             else {
                 var globalPlayer = game_1.default.findGlobalPlayer(winner.user);
-                message += `The winner of this round is ${winner.user.username} earning a total of ${scorePool} Mingie Gems!\n`;
+                message += `The winner of this round is **${winner.user.username}** earning a total of ${scorePool} Mingie Gems!\n`;
                 globalPlayer.score += scorePool;
             }
             bot_1.default.sendMessage(this.channel, message);
@@ -58,11 +57,10 @@ class Round {
     stop() {
         clearTimeout(this.roundEndTimeout);
     }
-    receiveMessage(message) {
+    receiveMessage(message, player) {
         var result = this.validateAnswer(message.content);
         var msg = `${message.author} `;
         if (result == AnswerResults.CORRECT) {
-            var player = this.findLocalPlayer(message.author);
             if (player.updateLongest(message.content)) {
                 var score = this.scoreAnswer(message.content);
                 var reaction = bot_1.default.randResponse([
@@ -99,7 +97,7 @@ class Round {
                     `It's dangerous to go alone!`,
                     `Eleven stars!`
                 ]);
-                msg += `${reaction} Your answer was worth ${score} Mingie Gems!`;
+                msg += `${reaction} Your answer was worth **${score}** Mingie Gems!`;
             }
             else {
                 msg += bot_1.default.randResponse([
@@ -161,22 +159,6 @@ class Round {
                 this.longest = e;
             }
         });
-    }
-    findLocalPlayer(user) {
-        var player = null;
-        this.activePlayers.forEach(element => {
-            if (element.user.id == user.id) {
-                player = element;
-            }
-        });
-        if (player != null) {
-            return player;
-        }
-        else {
-            var player = new player_1.default(user);
-            this.activePlayers.push(player);
-            return player;
-        }
     }
     validateAnswer(answer) {
         var rawAnswer = answer.trim().toLowerCase();

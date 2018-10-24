@@ -24,7 +24,7 @@ class BotChannel {
                         roundCount = parseInt(command.arguments[0]);
                     }
                     if (roundCount > 0) {
-                        this.game = new game_1.default(this.channel, parseInt(command.arguments[0]), () => {
+                        this.game = new game_1.default(this.channel, roundCount, () => {
                             this.game = null;
                         });
                         this.game.activate();
@@ -35,6 +35,11 @@ class BotChannel {
                 }
                 else {
                     bot_1.default.sendMessage(this.channel, "Game has been already started here!");
+                }
+            }
+            else if (command.main == "join") {
+                if (this.game != null) {
+                    this.game.addPlayer(msg.author);
                 }
             }
             else if (command.main == "stop") {

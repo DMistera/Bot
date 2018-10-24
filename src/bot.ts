@@ -1,11 +1,11 @@
 import Discord from 'discord.js';
-import Game from './bombParty/game'
+import BombGame from './bombParty/game'
 import BotChannel from './botChannel';
 
 class Bot {
 
     constructor() {
-        Game.loadDictionary();
+        BombGame.loadDictionary();
         this.channels = [];
         console.log("Bot has been initialized!");
     }

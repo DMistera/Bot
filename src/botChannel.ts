@@ -1,5 +1,5 @@
 import Discord from 'discord.js'
-import Game from './bombParty/game'
+import BombGame from './bombParty/game'
 import Bot from './bot';
 import Command from './command';
 
@@ -8,7 +8,7 @@ class BotChannel {
         this.channel = channel;
         this.game = null;
     }
-    game : Game;
+    game : BombGame;
     channel : Discord.TextChannel;
     receiveMessage(msg : Discord.Message) {
         if(msg.content.startsWith('!')) {
@@ -23,7 +23,7 @@ class BotChannel {
                         roundCount = parseInt(command.arguments[0]);
                     }
                     if(roundCount > 0) {
-                        this.game = new Game(this.channel, parseInt(command.arguments[0]), () => {
+                        this.game = new BombGame(this.channel, roundCount, () => {
                             this.game = null;
                         });
                         this.game.activate();
@@ -34,6 +34,11 @@ class BotChannel {
                 }
                 else {
                     Bot.sendMessage(this.channel, "Game has been already started here!");
+                }
+            }
+            else if(command.main == "join") {
+                if(this.game != null) {
+                    this.game.addPlayer(msg.author);
                 }
             }
             else if(command.main == "stop") {
