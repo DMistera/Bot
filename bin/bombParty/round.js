@@ -80,7 +80,7 @@ class Round {
                     "Do you like my face? No..? Same...",
                     "Time to go.. even further.. beyond!",
                     "/me dabs!",
-                    `Wheeeeeeee`,
+                    `Wheeeeeeee!`,
                     `Eat me!`,
                     `Nya!`,
                     `Cookiezi would be proud of you`,
@@ -89,12 +89,23 @@ class Round {
                     `Hot shot!`,
                     `Your path of an exile has begun!`,
                     `Jackpot!`,
-                    `♂ Take ♂ it ♂ boy ♂`
+                    `♂ Take ♂ it ♂ boy ♂`,
+                    `Amazing!`,
+                    `${reaction} is my life now!`,
+                    `You can see red sirens in the distance...`,
+                    `You have unlocked a special achievment... Just kidding!`,
+                    `Guys! We got a millionaire!`,
+                    `Unstopable force meets unmovable object!`,
+                    `It's dangerous to go alone!`,
+                    `Eleven stars!`
                 ]);
                 msg += `${reaction} Your answer was worth ${score} Mingie Gems!`;
             }
             else {
-                msg += "Good answer, but your last one was better.";
+                msg += bot_1.default.randResponse([
+                    "Good answer, but your last one was better.",
+                    "You can do better!"
+                ]);
             }
         }
         else if (result == AnswerResults.ERR_NOT_IN_DICT) {
@@ -108,7 +119,12 @@ class Round {
                 `Hi, my name is ${message.content}, can you find a real word?`,
                 `I cry when ${message.content} deserve to die!`,
                 `${message.content} is an illusion!`,
-                `Why are you so in love with ${message.content}?`
+                `Why are you so in love with ${message.content}?`,
+                `This would be a good pick up line: Have you seen my ${message.content}, babe?`,
+                `Baka! Baka! Baka! Where do you find such words?`,
+                `If you lke ${message.content} so much why don't you include it in your CV?`,
+                `${message.content} was my teacher's name, not a word.`,
+                `You found an easter egg! Just kidding, you don't even know the disctionary!`
             ]);
             msg += `${respone}`;
         }
@@ -122,7 +138,8 @@ class Round {
             var respone = bot_1.default.randResponse([
                 `Hey! You were supposed to include the sequence, dummy!`,
                 `Hey dummy! Can't you even check the letters`,
-                `Maybe you should go back to school and learn to include 3-letter sequences in your words!`
+                `Maybe you should go back to school and learn to include 3-letter sequences in your words!`,
+                `Baka! You had one job! Include the magical sequence!`
             ]);
             msg += respone;
         }
