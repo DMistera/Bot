@@ -28,6 +28,8 @@ class Bot {
         }
     }
 
+    
+
     static sendMessage(channel : Discord.TextChannel, msg : string) {
         channel.send(msg);
     }

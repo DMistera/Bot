@@ -8,10 +8,10 @@ const fs_1 = __importDefault(require("fs"));
 const bot_1 = __importDefault(require("../bot"));
 const round_1 = __importDefault(require("./round"));
 class Game {
-    constructor(channel, endCall) {
+    constructor(channel, roundCount, endCall) {
         this.maxRounds = 0;
         this.channel = channel;
-        this.maxRounds = 5;
+        this.maxRounds = roundCount;
         this.currentRoundNumber = 1;
         this.endCall = endCall;
     }
@@ -27,12 +27,12 @@ class Game {
         this.endCall();
     }
     onRoundEnd() {
-        if (this.currentRoundNumber <= this.maxRounds) {
+        if (this.currentRoundNumber < this.maxRounds) {
+            this.currentRoundNumber++;
             this.currentRound = new round_1.default(this.channel, this.currentRoundNumber, () => {
                 this.onRoundEnd();
             });
             this.currentRound.activate();
-            this.currentRoundNumber++;
         }
         //After all rounds
         else {
