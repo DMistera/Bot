@@ -14,5 +14,9 @@ class Player {
         }
         return false;
     }
+    reset() {
+        this.longest = "";
+        this.score = 0;
+    }
 }
 exports.default = Player;

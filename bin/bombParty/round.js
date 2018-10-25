@@ -41,6 +41,7 @@ class Round {
                 var score = this.scoreAnswer(e.longest);
                 scorePool += score;
                 message += `**${e.user.username}** answered ${e.longest} (${e.longest.length} letters) and earned ${score} Mingie Gems!\n`;
+                e.reset();
             });
             if (winner == null) {
                 message += `Nobody got a single score :(`;
