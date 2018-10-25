@@ -48,7 +48,8 @@ class BotChannel {
             }
         }
         else if(this.game != null) {
-            this.game.receiveMessage(msg);
+            if(msg.content.split(' ').length <= 1)
+                this.game.receiveMessage(msg);
         }
     }
 }
