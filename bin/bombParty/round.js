@@ -8,7 +8,7 @@ const game_1 = __importDefault(require("./game"));
 class Round {
     constructor(channel, number, players, endCall) {
         //Const
-        this.gameTime = 15;
+        this.gameTime = 20;
         this.sequence = "";
         this.longest = "";
         this.channel = channel;
