@@ -62,6 +62,7 @@ class BombGame extends Game {
     static async load() {
         BombGame.loadDictionary();
         if(!fs.existsSync(BombGame.database)) {
+            console.log(`Save file doesnt exist!`);
             BombGame.players = [];
         }
         else { 
@@ -69,16 +70,15 @@ class BombGame extends Game {
                 if(!err) {
                     BombGame.players = JSON.parse(data) as BombPlayer[];
                     BombGame.players.forEach((p) => {
-                        console.log(p);
                         ClientManager.client.fetchUser(p.userID).then((u) => {
                             p.user = u;
                         }).catch((err) => {
-                            console.log(err)
+                            console.error(err)
                         });
                     });
                 }
                 else {
-                    console.log(err);
+                    console.error(err);
                 }
             });
         }
