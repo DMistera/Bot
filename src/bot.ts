@@ -1,13 +1,15 @@
 import Discord from 'discord.js';
-import BombGame from './bombParty/game'
+import BombGame from './games/bombParty/bombgame'
 import BotChannel from './botChannel';
 
 class Bot {
 
     constructor() {
-        BombGame.loadDictionary();
         this.channels = [];
-        console.log("Bot has been initialized!");
+    }
+
+    init() {
+        BombGame.load();
     }
 
     public receiveMessage(message : Discord.Message) {
@@ -37,6 +39,18 @@ class Bot {
     //Each game for each text channel
     channels : BotChannel[];
 
+    //Maybe some other time
+    /*static loadReactions() {
+        fs.readFile('reaction.js', 'utf8', (err, data) => {
+            if(!err) {
+                this.reactionJson = JSON.parse(data);
+            }
+            else {
+                console.log(err);
+            }
+        });           
+    }
+    private static reactionJson : any;*/
 
     static randResponse(array : string[]) : string {
         var index = Math.round(array.length*Math.random() - 0.5);

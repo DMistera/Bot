@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bot_1 = __importDefault(require("../bot"));
+const bot_1 = __importDefault(require("../../bot"));
 const bombgame_1 = __importDefault(require("./bombgame"));
 class Round {
     constructor(channel, number, players, endCall) {
@@ -15,45 +15,48 @@ class Round {
         this.number = number;
         this.endCall = endCall;
         this.roundEndTimeout = null;
-        this.activePlayers = players;
+        this.activePlayers = [];
     }
-    activate() {
+    start() {
         this.generateSequence();
         this.findLongest();
         bot_1.default.sendMessage(this.channel, `Round ${this.number} has been started! Find a word containting the sequence **${this.sequence.toUpperCase()}**. The longest word has **${this.longest.length}** letters! You have ${this.gameTime} seconds!`);
         this.roundEndTimeout = setTimeout(() => {
-            var winner = null;
-            var bestTime = Number.MAX_SAFE_INTEGER;
-            var message = `The round has ended! The longest word was **${this.longest}**! Here are the results: \n`;
-            var scorePool = 0;
-            var bestWord = "";
-            this.activePlayers.forEach((e) => {
-                if (e.longest.length > bestWord.length) {
-                    bestWord = e.longest;
-                    bestTime = e.time;
-                    winner = e;
-                }
-                else if (e.longest.length == bestWord.length && e.time < bestTime) {
-                    bestWord = e.longest;
-                    bestTime = e.time;
-                    winner = e;
-                }
-                var score = this.scoreAnswer(e.longest);
-                scorePool += score;
-                message += `**${e.user.username}** answered ${e.longest} (${e.longest.length} letters) and earned ${score} Mingie Gems!\n`;
-                e.reset();
-            });
-            if (winner == null) {
-                message += `Nobody got a single score :(`;
-            }
-            else {
-                var globalPlayer = bombgame_1.default.findGlobalPlayer(winner.user);
-                message += `The winner of this round is **${winner.user.username}** earning a total of ${scorePool} Mingie Gems!\n`;
-                globalPlayer.score += scorePool;
-            }
-            bot_1.default.sendMessage(this.channel, message);
-            this.endCall();
+            this.onRoundEnd();
         }, this.gameTime * 1000);
+    }
+    onRoundEnd() {
+        var bestTime = Number.MAX_SAFE_INTEGER;
+        var message = `The round has ended! The longest word was **${this.longest}**! Here are the results: \n`;
+        var scorePool = 0;
+        var bestWord = "";
+        this.activePlayers.forEach((e) => {
+            if (e.longest.length > bestWord.length) {
+                bestWord = e.longest;
+                bestTime = e.time;
+                this.winner = e;
+            }
+            else if (e.longest.length == bestWord.length && e.time < bestTime) {
+                bestWord = e.longest;
+                bestTime = e.time;
+                this.winner = e;
+            }
+            var score = this.scoreAnswer(e.longest);
+            scorePool += score;
+            message += `**${e.user.username}** answered ${e.longest} (${e.longest.length} letters) and earned ${score} Mingie Gems!\n`;
+            e.reset();
+        });
+        if (this.winner == null) {
+            message += `Nobody got a single score :(`;
+        }
+        else {
+            var globalPlayer = bombgame_1.default.findGlobalPlayer(this.winner.user);
+            message += `The winner of this round is **${this.winner.user.username}** earning a total of ${scorePool} Mingie Gems!\n`;
+            globalPlayer.score += scorePool;
+            //console.log(globalPlayer.);
+        }
+        bot_1.default.sendMessage(this.channel, message);
+        this.endCall();
     }
     stop() {
         clearTimeout(this.roundEndTimeout);
@@ -61,6 +64,13 @@ class Round {
     receiveMessage(message, player) {
         var result = this.validateAnswer(message.content);
         var msg = `${message.author} `;
+        //Add player if he's not there
+        var p = this.activePlayers.find((e) => {
+            return e.user.id == player.user.id;
+        });
+        if (p == undefined) {
+            this.activePlayers.push(player);
+        }
         if (result == AnswerResults.CORRECT) {
             if (player.updateLongest(message.content)) {
                 var score = this.scoreAnswer(message.content);

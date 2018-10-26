@@ -1,8 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-class BombPlayer {
+const player_1 = __importDefault(require("../player"));
+class BombPlayer extends player_1.default {
     constructor(u) {
-        this.user = u;
+        super(u);
         this.score = 0;
         this.longest = "";
     }
