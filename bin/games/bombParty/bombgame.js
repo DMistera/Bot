@@ -170,5 +170,5 @@ class BombGame extends game_1.default {
     }
 }
 BombGame.players = [];
-BombGame.database = 'data/mingwie.json';
+BombGame.database = '.data/mingwie.json';
 exports.default = BombGame;
