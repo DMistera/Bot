@@ -2,7 +2,12 @@
 import Discord from 'discord.js';
 import ClientManager from './clientManager';
 import Bot from './bot';
+import fs from 'fs';
 require('dotenv').config();
+
+if(!fs.existsSync('.data')) {
+    fs.mkdirSync('.data');
+}
 
 var bot = new Bot();
 
