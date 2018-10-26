@@ -201,15 +201,9 @@ class Round {
         }
     }
     scoreAnswer(answer) {
-        var difference = this.longest.length - answer.length;
-        var threshold = 15;
-        var base = answer.length;
-        if (difference > threshold) {
-            return base;
-        }
-        else {
-            return base * Math.pow(2, threshold - difference);
-        }
+        var difference = 1 - (this.longest.length - answer.length) / this.longest.length;
+        var power = 1 + difference * 3;
+        return Math.pow(answer.length, power);
     }
 }
 var AnswerResults;
