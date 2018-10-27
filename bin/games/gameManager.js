@@ -23,7 +23,7 @@ class GameManager {
             var command = new command_1.default(msg);
             //This is a placehorder, it should be able to deal with multiple game types
             if (command.main == "play") {
-                if (this.activeGame != null) {
+                if (this.activeGame == null) {
                     this.activeGame = this.bombGame;
                     this.activeGame.start(command.arguments);
                 }
