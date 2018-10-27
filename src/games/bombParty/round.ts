@@ -146,7 +146,7 @@ class Round {
                 `I cry when ${message.content} deserve to die!`,
                 `${message.content} is an illusion!`,
                 `Why are you so in love with ${message.content}?`,
-                `This would be a good pick up line: Have you seen my ${message.content}, babe?`,
+                `This would be a good pick up line: Would you like to see my ${message.content}, babe?`,
                 `Baka! Baka! Baka! Where do you find such words?`,
                 `If you like ${message.content} so much why don't you include it in your CV?`,
                 `${message.content} was my teacher's name, not a word.`,
