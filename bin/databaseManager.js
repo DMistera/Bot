@@ -40,7 +40,6 @@ class DatabaseManager {
             else {
                 for (var row of res.rows) {
                     var id = row.userid;
-                    console.log(row);
                     clientManager_1.default.client.fetchUser(id.trim()).then((u) => {
                         var player = new player_1.default(u);
                         player.score = row.score;

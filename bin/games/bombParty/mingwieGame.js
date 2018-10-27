@@ -20,7 +20,7 @@ class MingwieGame extends game_1.default {
     }
     showLeaderboard() {
         gameManager_1.default.players.sort((a, b) => {
-            return a.score - b.score;
+            return b.score - a.score;
         });
         var msg = "";
         if (gameManager_1.default.players.length < 1) {
@@ -30,7 +30,7 @@ class MingwieGame extends game_1.default {
             for (var i = 0; i < 10; i++) {
                 var player = gameManager_1.default.players[i];
                 if (player != null) {
-                    msg += `${i + 1}. ${player.user.username}: ${player.score} Mingie Gems.\n`;
+                    msg += `${i + 1}. **${player.user.username}**: ${player.score} Mingie Gems.\n`;
                 }
             }
         }
