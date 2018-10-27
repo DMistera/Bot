@@ -3,6 +3,7 @@ import Discord, { TextChannel } from 'discord.js';
 import Command from "../command";
 import Game from "./game";
 import Player from "./player";
+import Bot from "../bot";
 
 //TODO
 
@@ -32,6 +33,9 @@ class GameManager {
             if(command.main == "top") {
                 this.bombGame.showLeaderboard();
             }
+            if(command.main == "help") {
+                Bot.sendMessage(this.channel, this.helpMessage());
+            }
             else {
                 if(this.activeGame != null) {
                     this.activeGame.readCommand(command);
@@ -41,6 +45,16 @@ class GameManager {
         else if(this.activeGame != null) {
             this.activeGame.receiveMessage(msg);
         }
+    }
+
+    helpMessage() : string {
+        return `
+**!help**  : displays this message
+**!play [rounds]** : starts a new game with this amound of rounds
+**!stop** : stops the current game
+**!join** : joins the game
+**!top** : shows leaderboard
+        `;
     }
 
     onGameEnd() {

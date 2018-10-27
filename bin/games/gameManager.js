@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mingwieGame_1 = __importDefault(require("./bombParty/mingwieGame"));
 const command_1 = __importDefault(require("../command"));
 const player_1 = __importDefault(require("./player"));
+const bot_1 = __importDefault(require("../bot"));
 //TODO
 class GameManager {
     constructor(channel) {
@@ -28,6 +29,9 @@ class GameManager {
             if (command.main == "top") {
                 this.bombGame.showLeaderboard();
             }
+            if (command.main == "help") {
+                bot_1.default.sendMessage(this.channel, this.helpMessage());
+            }
             else {
                 if (this.activeGame != null) {
                     this.activeGame.readCommand(command);
@@ -37,6 +41,15 @@ class GameManager {
         else if (this.activeGame != null) {
             this.activeGame.receiveMessage(msg);
         }
+    }
+    helpMessage() {
+        return `
+**!help**  : displays this message
+**!play [rounds]** : starts a new game with this amound of rounds
+**!stop** : stops the current game
+**!join** : joins the game
+**!top** : shows leaderboard
+        `;
     }
     onGameEnd() {
         this.activeGame = null;

@@ -17,6 +17,10 @@ clientManager_1.default.client.on('message', (msg) => {
 });
 clientManager_1.default.client.on('ready', () => {
     console.log("Ready!");
+    clientManager_1.default.client.user.setPresence({
+        status: "online",
+        game: { name: '!help' }
+    });
     bot.init();
 });
 clientManager_1.default.client.login(process.env.DISCORD_TOKEN);
