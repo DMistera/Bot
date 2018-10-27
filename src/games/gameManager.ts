@@ -41,6 +41,10 @@ class GameManager {
             else if(command.main == "help") {
                 Bot.sendMessage(this.channel, this.helpMessage());
             }
+            else if(command.main == "me") {
+                var player = GameManager.findGlobalPlayer(msg.author);
+                Bot.sendMessage(this.channel, `${player.user} You have ${player.score} Mingie Gems!`);
+            }
             else {
                 if(this.activeGame != null) {
                     this.activeGame.readCommand(command);
@@ -59,6 +63,7 @@ class GameManager {
 **!stop** : stops the current game
 **!join** : joins the game
 **!top** : shows leaderboard
+**!me** : shows your score
         `;
     }
 

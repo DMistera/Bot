@@ -24,3 +24,10 @@ clientManager_1.default.client.on('ready', () => {
     bot.init();
 });
 clientManager_1.default.client.login(process.env.DISCORD_TOKEN);
+//TODO
+/*
+Make database stable
+Make players global
+Fix punishment
+Me command
+*/ 
