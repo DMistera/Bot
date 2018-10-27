@@ -203,7 +203,7 @@ class Round {
     }
     scoreAnswer(answer) {
         var difference = 1 - (this.longest.length - answer.length) / this.longest.length;
-        var power = 1 + difference * 3;
+        var power = 1 + difference;
         return Math.floor(Math.pow(answer.length, power));
     }
 }
