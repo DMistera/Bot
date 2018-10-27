@@ -29,7 +29,7 @@ class GameManager {
             if (command.main == "top") {
                 this.bombGame.showLeaderboard();
             }
-            if (command.main == "help") {
+            else if (command.main == "help") {
                 bot_1.default.sendMessage(this.channel, this.helpMessage());
             }
             else {
