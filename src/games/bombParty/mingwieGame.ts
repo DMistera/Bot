@@ -21,7 +21,6 @@ class MingwieGame extends Game {
     constructor(channel : Discord.TextChannel, endCall : () => any) {
         super(channel, endCall);
         this.channel = channel;
-        this.activePlayers = [];
     }
 
     showLeaderboard() {
@@ -45,6 +44,7 @@ class MingwieGame extends Game {
 
     start(args : string[]) {
         this.currentRoundNumber = 1;
+        this.activePlayers = [];
         if(args.length == 0) {
             this.maxRounds = 5;
         }
@@ -107,9 +107,20 @@ class MingwieGame extends Game {
     }
 
     addPlayer(user : Discord.User) : void {
-        var player = new BombPlayer(user);
-        this.activePlayers.push(player);
-        Bot.sendMessage(this.channel, `${user} has joined the game!`);
+        var add = true;
+        this.activePlayers.forEach((e) => {
+            if(e.user.id == user.id) {
+                add = false;
+            }
+        })
+        if(add) {
+            var player = new BombPlayer(user);
+            this.activePlayers.push(player);
+            Bot.sendMessage(this.channel, `${user} has joined the game!`);
+        }
+        else {
+            Bot.sendMessage(this.channel, `${user}, you are already in this game!`);
+        }
     }
 
         

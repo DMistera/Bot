@@ -15,7 +15,6 @@ class MingwieGame extends game_1.default {
         super(channel, endCall);
         this.maxRounds = 0;
         this.channel = channel;
-        this.activePlayers = [];
     }
     showLeaderboard() {
         gameManager_1.default.players.sort((a, b) => {
@@ -37,6 +36,7 @@ class MingwieGame extends game_1.default {
     }
     start(args) {
         this.currentRoundNumber = 1;
+        this.activePlayers = [];
         if (args.length == 0) {
             this.maxRounds = 5;
         }
@@ -94,9 +94,20 @@ class MingwieGame extends game_1.default {
         this.words = content.split('\n');
     }
     addPlayer(user) {
-        var player = new player_1.default(user);
-        this.activePlayers.push(player);
-        bot_1.default.sendMessage(this.channel, `${user} has joined the game!`);
+        var add = true;
+        this.activePlayers.forEach((e) => {
+            if (e.user.id == user.id) {
+                add = false;
+            }
+        });
+        if (add) {
+            var player = new player_1.default(user);
+            this.activePlayers.push(player);
+            bot_1.default.sendMessage(this.channel, `${user} has joined the game!`);
+        }
+        else {
+            bot_1.default.sendMessage(this.channel, `${user}, you are already in this game!`);
+        }
     }
     findLocalPlayer(user) {
         var player = null;
