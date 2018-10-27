@@ -28,7 +28,7 @@ class MingwieGame extends game_1.default {
             for (var i = 0; i < 10; i++) {
                 var player = gameManager_1.default.players[i];
                 if (player != null) {
-                    msg += `${i + 1}. **${player.user.username}**: ${player.score} Mingie Gems.\n`;
+                    msg += `${i + 1}. ${player.user}: ${player.score} Mingie Gems.\n`;
                 }
             }
         }
@@ -67,7 +67,7 @@ class MingwieGame extends game_1.default {
             `Wheee, what a party killer. Did you really have to?`,
             `It was so fun but you had to ruin everything!`
         ]);
-        bot_1.default.sendMessage(this.channel, `The game has stopped! Why would you do that? >.<`);
+        bot_1.default.sendMessage(this.channel, response);
         this.endCall();
     }
     onRoundEnd() {
