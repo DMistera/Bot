@@ -8,7 +8,7 @@ import GameManager from "../gameManager";
 class Round {
 
     //Const
-    gameTime = 20;
+    gameTime = 15;
 
     number : number;
     endCall : () => any;
