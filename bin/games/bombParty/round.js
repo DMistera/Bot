@@ -161,7 +161,7 @@ class Round {
         }
         else if (result == AnswerResults.ERR_CHEATING) {
             var pun = this.punish(message.content, player);
-            msg += `You failed to include the sequence but your word is suspiciously long. **${pun}** Mingie Games has been taken from your account!`;
+            msg += `You failed to include the sequence but your word is suspiciously long. **${pun}** Mingie Gems has been taken from your account!`;
         }
         else {
             var respone = bot_1.default.randResponse([
