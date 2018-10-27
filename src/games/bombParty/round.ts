@@ -55,7 +55,7 @@ class Round {
             var score = this.scoreAnswer(e.longest);
             scorePool += score;
             if(score > 0) {
-                message += `**${e.user.username}** answered ${e.longest} (${e.longest.length} letters) and earned ${score} Mingie Gems!\n`;
+                message += `**${e.user.username}** answered ${e.longest} (${e.longest.length} letters) worth **${score}** Mingie Gems!\n`;
             }
             e.reset();
         });
@@ -64,7 +64,7 @@ class Round {
         }
         else {
             var globalPlayer = GameManager.findGlobalPlayer(this.winner.user);
-            message += `The winner of this round is **${this.winner.user.username}** earning a total of ${scorePool} Mingie Gems!\n`;
+            message += `The winner of this round is **${this.winner.user.username}** who answered **${bestWord}** and earned a total of **${scorePool}** Mingie Gems from all players!\n`;
             globalPlayer.score += scorePool;
             //console.log(globalPlayer.);
         }
