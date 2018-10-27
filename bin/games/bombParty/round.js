@@ -95,7 +95,6 @@ class Round {
                     `Wheeeeeeee!`,
                     `Eat me!`,
                     `Nya!`,
-                    `Cookiezi would be proud of you`,
                     `Sometimes I wish I was a cat... A black cat... Anyways,`,
                     `Let the games begin!`,
                     `Hot shot!`,
@@ -109,7 +108,18 @@ class Round {
                     `Guys! We got a millionaire!`,
                     `Unstopable force meets unmovable object!`,
                     `It's dangerous to go alone!`,
-                    `Eleven stars!`
+                    `Eleven stars!`,
+                    `C-C-C-COMBO BREAKER!`,
+                    `I see what you did here...`,
+                    `It is our inspiration that defines us!`,
+                    `The quick brown fox jumps over the lazy dog!`,
+                    `DVD Logo just hit the corner!`,
+                    `Tetris!`,
+                    `K.O.!`,
+                    `Taste the Rainbow!`,
+                    `Don't let your dreams be dreams!`,
+                    `What's the worst that could happen?`,
+                    `Yay! You did it! You finally did it!`
                 ]);
                 msg += `${reaction} Your answer was worth **${score}** Mingie Gems!`;
             }
@@ -126,7 +136,6 @@ class Round {
                 "Dumbass! This isn't even a word!",
                 `Wh.. What? Where have you ever heard of such a word as ${message.content}`,
                 `${message.content} is the same as your purpose. It doesnt exist.`,
-                `Pfft, put your ${message.content} down deep in your`,
                 `Nice name for a company. Unfortunately not so good for this game!`,
                 `Hi, my name is ${message.content}, can you find a real word?`,
                 `I cry when ${message.content} deserve to die!`,
@@ -136,7 +145,11 @@ class Round {
                 `Baka! Baka! Baka! Where do you find such words?`,
                 `If you like ${message.content} so much why don't you include it in your CV?`,
                 `${message.content} was my teacher's name, not a word.`,
-                `You found an easter egg! Just kidding, you don't even know the dictionary!`
+                `You found an easter egg! Just kidding, you don't even know the dictionary!`,
+                `"${message.content}.", ${message.author.username} 2018. Truly meaningful!`,
+                `Step 1. ${message.content}, Step 2. ??? Step3. Profit.`,
+                `${message.content} is truly undesirable`,
+                `There exists a village named ${message.content}`
             ]);
             msg += `${respone}`;
         }

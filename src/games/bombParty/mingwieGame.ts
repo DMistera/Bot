@@ -70,6 +70,12 @@ class MingwieGame extends Game {
         if(this.currentRound != null) {
             this.currentRound.stop();
         }
+        var response = Bot.randResponse([
+            `The game has stopped! Why would you do that? >.<`,
+            `B-B-But are you sure? .. ok fine. The game is gone! All thanks to you!`,
+            `Wheee, what a party killer. Did you really have to?`,
+            `It was so fun but you had to ruin everything!`
+        ])
         Bot.sendMessage(this.channel, `The game has stopped! Why would you do that? >.<`);
         this.endCall();
     }

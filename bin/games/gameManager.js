@@ -50,7 +50,7 @@ class GameManager {
     helpMessage() {
         return `
 **!help**  : displays this message
-**!play [rounds]** : starts a new game with this amound of rounds
+**!play [rounds]** : starts a new game with this amount of rounds
 **!stop** : stops the current game
 **!join** : joins the game
 **!top** : shows leaderboard
