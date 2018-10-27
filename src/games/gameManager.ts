@@ -1,21 +1,25 @@
-import BombGame from "./bombParty/bombgame";
+import MingwieGame from "./bombParty/mingwieGame";
 import Discord, { TextChannel } from 'discord.js';
 import Command from "../command";
-import Bot from "../bot";
 import Game from "./game";
+import Player from "./player";
 
 //TODO
 
 class GameManager {
     constructor(channel : TextChannel) {
         this.channel = channel;
-        this.bombGame = new BombGame(channel, () => {
+        this.bombGame = new MingwieGame(channel, () => {
             this.onGameEnd();
         })
     }
+    static init() {
+        MingwieGame.loadDictionary();
+    }
     channel : TextChannel;
-    bombGame : BombGame;
+    bombGame : MingwieGame;
     activeGame : Game;
+    static players: Player[] = [];
     receiveMessage(msg : Discord.Message) {
         if(msg.content.startsWith('!')) {
             var command = new Command(msg);

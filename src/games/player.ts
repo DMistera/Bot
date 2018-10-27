@@ -2,14 +2,27 @@
 import Discord from "discord.js";
 
 class Player {
+    score : number;
+    longest: string;
+    time : number;
+    updateLongest(answer : string) : boolean {
+        if(answer.length > this.longest.length) {
+            this.longest = answer;
+            this.time = Date.now();
+            return true;
+        }
+        return false;
+    }
+    reset() {
+        this.longest = "";
+        this.score = 0;
+    }
     constructor(user : Discord.User) {
         this.user = user;
-        this.userID = user.id;
+        this.score = 0;
+        this.longest = "";
     }
     user : Discord.User;
-
-    //THIS IS BECAUSE JSON.Parse() DOES NOT WORK WITH PROMISES
-    userID : string;
 }
 
 export default Player;

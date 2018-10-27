@@ -1,6 +1,8 @@
 import Discord from 'discord.js';
-import BombGame from './games/bombParty/bombgame'
+import MingwieGame from './games/bombParty/mingwieGame'
 import BotChannel from './botChannel';
+import GameManager from './games/gameManager';
+import DatabaseManager from './databaseManager';
 
 class Bot {
 
@@ -9,7 +11,8 @@ class Bot {
     }
 
     init() {
-        BombGame.load();
+        GameManager.init();
+        DatabaseManager.init();
     }
 
     public receiveMessage(message : Discord.Message) {

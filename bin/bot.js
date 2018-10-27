@@ -3,14 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bombgame_1 = __importDefault(require("./games/bombParty/bombgame"));
 const botChannel_1 = __importDefault(require("./botChannel"));
+const gameManager_1 = __importDefault(require("./games/gameManager"));
+const databaseManager_1 = __importDefault(require("./databaseManager"));
 class Bot {
     constructor() {
         this.channels = [];
     }
     init() {
-        bombgame_1.default.load();
+        gameManager_1.default.init();
+        databaseManager_1.default.init();
     }
     receiveMessage(message) {
         if (message.author.bot) {

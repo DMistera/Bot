@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const bot_1 = __importDefault(require("../../bot"));
-const bombgame_1 = __importDefault(require("./bombgame"));
+const mingwieGame_1 = __importDefault(require("./mingwieGame"));
 class Round {
     constructor(channel, number, players, endCall) {
         //Const
@@ -50,7 +50,7 @@ class Round {
             message += `Nobody got a single score :(`;
         }
         else {
-            var globalPlayer = bombgame_1.default.findGlobalPlayer(this.winner.user);
+            var globalPlayer = mingwieGame_1.default.findGlobalPlayer(this.winner.user);
             message += `The winner of this round is **${this.winner.user.username}** earning a total of ${scorePool} Mingie Gems!\n`;
             globalPlayer.score += scorePool;
             //console.log(globalPlayer.);
@@ -155,8 +155,8 @@ class Round {
         bot_1.default.sendMessage(this.channel, msg);
     }
     generateSequence() {
-        var index = Math.round(Math.random() * bombgame_1.default.words.length);
-        var word = bombgame_1.default.words[index];
+        var index = Math.round(Math.random() * mingwieGame_1.default.words.length);
+        var word = mingwieGame_1.default.words[index];
         if (word.length < 4) {
             this.generateSequence();
             return;
@@ -165,7 +165,7 @@ class Round {
         this.sequence = word.substr(rstart, 3);
     }
     findLongest() {
-        bombgame_1.default.words.forEach((e) => {
+        mingwieGame_1.default.words.forEach((e) => {
             if (e.length > this.longest.length && e.includes(this.sequence)) {
                 this.longest = e;
             }
@@ -187,7 +187,7 @@ class Round {
             return AnswerResults.ERR_COPYING;
         }
         var inDict = false;
-        bombgame_1.default.words.forEach((e) => {
+        mingwieGame_1.default.words.forEach((e) => {
             if (rawAnswer === e.trim()) {
                 inDict = true;
                 return;

@@ -3,15 +3,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bombgame_1 = __importDefault(require("./bombParty/bombgame"));
+const mingwieGame_1 = __importDefault(require("./bombParty/mingwieGame"));
 const command_1 = __importDefault(require("../command"));
 //TODO
 class GameManager {
     constructor(channel) {
         this.channel = channel;
-        this.bombGame = new bombgame_1.default(channel, () => {
+        this.bombGame = new mingwieGame_1.default(channel, () => {
             this.onGameEnd();
         });
+    }
+    static init() {
+        mingwieGame_1.default.loadDictionary();
     }
     receiveMessage(msg) {
         if (msg.content.startsWith('!')) {
@@ -38,4 +41,5 @@ class GameManager {
         this.activeGame = null;
     }
 }
+GameManager.players = [];
 exports.default = GameManager;

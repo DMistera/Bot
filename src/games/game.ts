@@ -17,6 +17,7 @@ abstract class Game {
             this.stop();
         }
     }
+
     abstract receiveMessage(message : Discord.Message);
     abstract start(args : string[]);
     abstract addPlayer(user : Discord.User) : void;

@@ -1,7 +1,6 @@
 import Bot from "../../bot";
 import Discord from 'discord.js';
-import BombGame from "./bombgame";
-import BombPlayer from "./bombplayer";
+import MingwieGame from "./mingwieGame";
 import Player from "../player";
 
 
@@ -15,11 +14,11 @@ class Round {
     channel : Discord.TextChannel;
     sequence: string = "";
     longest : string = "";
-    activePlayers : BombPlayer[];
+    activePlayers: Player[];
     roundEndTimeout: NodeJS.Timeout;
-    winner : BombPlayer;
+    winner;
 
-    constructor(channel : Discord.TextChannel,  number : number, players : BombPlayer[],  endCall: () => any) {
+    constructor(channel : Discord.TextChannel,  number : number, players : Player[],  endCall: () => any) {
         this.channel = channel;
         this.number = number;
         this.endCall = endCall;
@@ -61,7 +60,7 @@ class Round {
             message += `Nobody got a single score :(`;
         }
         else {
-            var globalPlayer = BombGame.findGlobalPlayer(this.winner.user);
+            var globalPlayer = MingwieGame.findGlobalPlayer(this.winner.user);
             message += `The winner of this round is **${this.winner.user.username}** earning a total of ${scorePool} Mingie Gems!\n`;
             globalPlayer.score += scorePool;
             //console.log(globalPlayer.);
@@ -74,7 +73,7 @@ class Round {
         clearTimeout(this.roundEndTimeout);
     }
 
-    receiveMessage(message : Discord.Message, player : BombPlayer) {
+    receiveMessage(message : Discord.Message, player) {
         var result = this.validateAnswer(message.content);
         var msg = `${message.author} `;
 
@@ -171,8 +170,8 @@ class Round {
     }
 
     generateSequence() {
-        var index = Math.round(Math.random()*BombGame.words.length);
-        var word = BombGame.words[index];
+        var index = Math.round(Math.random()*MingwieGame.words.length);
+        var word = MingwieGame.words[index];
         if(word.length < 4) {
             this.generateSequence();
             return;
@@ -182,7 +181,7 @@ class Round {
     }
 
     findLongest() {
-        BombGame.words.forEach((e) => {
+        MingwieGame.words.forEach((e) => {
             if(e.length > this.longest.length && e.includes(this.sequence)) {
                 this.longest = e;
             }
@@ -205,7 +204,7 @@ class Round {
             return AnswerResults.ERR_COPYING;
         }
         var inDict = false;
-        BombGame.words.forEach((e) => {
+        MingwieGame.words.forEach((e) => {
             if(rawAnswer === e.trim()) {
                 inDict = true;
                 return;
