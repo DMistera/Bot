@@ -35,7 +35,7 @@ class MingwieGame extends Game {
             for(var i = 0; i < 10; i++) {
                 var player = GameManager.players[i];
                 if(player != null) {
-                    msg += `${i + 1}. **${player.user.username}**: ${player.score} Mingie Gems.\n`;
+                    msg += `${i + 1}. **${player.user.tag}**: ${player.score} Mingie Gems.\n`;
                 }
             }
         }
