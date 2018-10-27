@@ -54,7 +54,9 @@ class Round {
             }
             var score = this.scoreAnswer(e.longest);
             scorePool += score;
-            message += `**${e.user.username}** answered ${e.longest} (${e.longest.length} letters) and earned ${score} Mingie Gems!\n`;
+            if(score > 0) {
+                message += `**${e.user.username}** answered ${e.longest} (${e.longest.length} letters) and earned ${score} Mingie Gems!\n`;
+            }
             e.reset();
         });
         if(this.winner == null) {
