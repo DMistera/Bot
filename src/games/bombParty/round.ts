@@ -175,7 +175,7 @@ class Round {
         }
         else if(result == AnswerResults.ERR_CHEATING)  {
             var pun = this.punish(message.content, player);
-            msg += `${player.user} You failed to include the sequence but your word is suspiciously long. **${pun}** Mingie Games has been taken from your account!`
+            msg += `You failed to include the sequence but your word is suspiciously long. **${pun}** Mingie Games has been taken from your account!`
         }
         else  {
             var respone = Bot.randResponse([
@@ -210,6 +210,9 @@ class Round {
 
     punish(answer : string, player : Player) : number {
         var punishment = Math.pow(answer.length, 2);
+        if(punishment > 1000) {
+            punishment = 1000;
+        }
         var p = GameManager.findGlobalPlayer(player.user);
         p.score -= punishment;
         if(p.score < 0) {
