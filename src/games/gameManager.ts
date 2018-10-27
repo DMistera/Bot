@@ -27,8 +27,13 @@ class GameManager {
 
             //This is a placehorder, it should be able to deal with multiple game types
             if(command.main == "play") {
-                this.activeGame = this.bombGame;
-                this.activeGame.start(command.arguments);
+                if(this.activeGame != null) {
+                    this.activeGame = this.bombGame;
+                    this.activeGame.start(command.arguments);
+                }
+                else {
+                    Bot.sendMessage(this.channel, `There is already an active game here!`);
+                }
             }
             if(command.main == "top") {
                 this.bombGame.showLeaderboard();
