@@ -38,7 +38,7 @@ class DatabaseManager {
                 console.error(err);
             }
             else {
-                for (var row of res.rows) {
+                for (let row of res.rows) {
                     var id = row.userid;
                     clientManager_1.default.client.fetchUser(id.trim()).then((u) => {
                         var player = new player_1.default(u);
@@ -66,7 +66,6 @@ class DatabaseManager {
                 INSERT INTO ${this.playerTableName} (userid, score)
                 VALUES ${s};
                 `;
-                console.log(query);
                 this.client.query(query, (err, res) => {
                     if (err) {
                         console.error(err);
