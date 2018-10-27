@@ -159,6 +159,10 @@ class Round {
                 "What a copy-pasta, nyan!"
             ]);
         }
+        else if (result == AnswerResults.ERR_CHEATING) {
+            var pun = this.punish(message.content, player);
+            msg += `${player.user} You failed to include the sequence but your word is suspiciously long. **${pun}** Mingie Games has been taken from your account!`;
+        }
         else {
             var respone = bot_1.default.randResponse([
                 `Hey! You were supposed to include the sequence, dummy!`,
@@ -187,10 +191,24 @@ class Round {
             }
         });
     }
+    punish(answer, player) {
+        var punishment = Math.pow(answer.length, 2);
+        var p = gameManager_1.default.findGlobalPlayer(player.user);
+        p.score -= punishment;
+        if (p.score < 0) {
+            p.score = 0;
+        }
+        return punishment;
+    }
     validateAnswer(answer) {
         var rawAnswer = answer.trim().toLowerCase();
         if (!rawAnswer.includes(this.sequence)) {
-            return AnswerResults.ERR_DSNT_CONTAIN;
+            if (rawAnswer.length > 20) {
+                return AnswerResults.ERR_CHEATING;
+            }
+            else {
+                return AnswerResults.ERR_DSNT_CONTAIN;
+            }
         }
         var copying = false;
         this.activePlayers.forEach((e) => {
@@ -225,8 +243,9 @@ class Round {
 var AnswerResults;
 (function (AnswerResults) {
     AnswerResults[AnswerResults["ERR_NOT_IN_DICT"] = 0] = "ERR_NOT_IN_DICT";
-    AnswerResults[AnswerResults["ERR_DSNT_CONTAIN"] = 1] = "ERR_DSNT_CONTAIN";
-    AnswerResults[AnswerResults["ERR_COPYING"] = 2] = "ERR_COPYING";
-    AnswerResults[AnswerResults["CORRECT"] = 3] = "CORRECT";
+    AnswerResults[AnswerResults["ERR_CHEATING"] = 1] = "ERR_CHEATING";
+    AnswerResults[AnswerResults["ERR_DSNT_CONTAIN"] = 2] = "ERR_DSNT_CONTAIN";
+    AnswerResults[AnswerResults["ERR_COPYING"] = 3] = "ERR_COPYING";
+    AnswerResults[AnswerResults["CORRECT"] = 4] = "CORRECT";
 })(AnswerResults || (AnswerResults = {}));
 exports.default = Round;
