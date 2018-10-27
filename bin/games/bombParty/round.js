@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const bot_1 = __importDefault(require("../../bot"));
 const mingwieGame_1 = __importDefault(require("./mingwieGame"));
+const gameManager_1 = __importDefault(require("../gameManager"));
 class Round {
     constructor(channel, number, players, endCall) {
         //Const
@@ -50,7 +51,7 @@ class Round {
             message += `Nobody got a single score :(`;
         }
         else {
-            var globalPlayer = mingwieGame_1.default.findGlobalPlayer(this.winner.user);
+            var globalPlayer = gameManager_1.default.findGlobalPlayer(this.winner.user);
             message += `The winner of this round is **${this.winner.user.username}** earning a total of ${scorePool} Mingie Gems!\n`;
             globalPlayer.score += scorePool;
             //console.log(globalPlayer.);

@@ -21,7 +21,6 @@ class MingwieGame extends Game {
     constructor(channel : Discord.TextChannel, endCall : () => any) {
         super(channel, endCall);
         this.channel = channel;
-        this.currentRoundNumber = 1;
         this.activePlayers = [];
     }
 
@@ -45,6 +44,7 @@ class MingwieGame extends Game {
     }
 
     start(args : string[]) {
+        this.currentRoundNumber = 1;
         if(args.length == 0) {
             this.maxRounds = 5;
         }
@@ -85,7 +85,7 @@ class MingwieGame extends Game {
         }
         //After all rounds
         else {
-            Bot.sendMessage(this.channel, `All rounds have ended. The reward system is still under development...`);
+            Bot.sendMessage(this.channel, `All rounds have ended!`);
             this.endCall();
         }
     }
@@ -126,23 +126,6 @@ class MingwieGame extends Game {
         else {
             var player = new BombPlayer(user);
             this.activePlayers.push(player);
-            return player;
-        }
-    }
-
-    static findGlobalPlayer(user : Discord.User) : BombPlayer {
-        var player : BombPlayer = null;
-        GameManager.players.forEach(element => {
-            if(element.user.id == user.id) {
-                player = element;
-            }
-        });
-        if(player != null) {
-            return player;
-        }
-        else {
-            var player = new BombPlayer(user);
-            GameManager.players.push(player);
             return player;
         }
     }

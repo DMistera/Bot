@@ -46,6 +46,23 @@ class GameManager {
     onGameEnd() {
         this.activeGame = null;
     }
+
+    static findGlobalPlayer(user : Discord.User) : Player {
+        var player : Player = null;
+        GameManager.players.forEach(element => {
+            if(element.user.id == user.id) {
+                player = element;
+            }
+        });
+        if(player != null) {
+            return player;
+        }
+        else {
+            var player = new Player(user);
+            GameManager.players.push(player);
+            return player;
+        }
+    }
 }
 
 export default GameManager;

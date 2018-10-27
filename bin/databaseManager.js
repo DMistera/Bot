@@ -51,20 +51,27 @@ class DatabaseManager {
         return result;
     }
     static save() {
-        var players = gameManager_1.default.players;
-        var s = "";
-        players.forEach((e) => {
-            s += `('${e.user.id}',${e.score}),`;
-        });
-        s = s.slice(0, -1);
-        var query = `
-        INSERT INTO ${this.playerTableName} (userid, score)
-        VALUES ${s};
-        `;
-        console.log(query);
-        this.client.query(query, (err, res) => {
+        this.client.query(`TRUNCATE players;`, (err) => {
             if (err) {
                 console.error(err);
+            }
+            else {
+                var players = gameManager_1.default.players;
+                var s = "";
+                players.forEach((e) => {
+                    s += `('${e.user.id}',${e.score}),`;
+                });
+                s = s.slice(0, -1);
+                var query = `
+                INSERT INTO ${this.playerTableName} (userid, score)
+                VALUES ${s};
+                `;
+                console.log(query);
+                this.client.query(query, (err, res) => {
+                    if (err) {
+                        console.error(err);
+                    }
+                });
             }
         });
     }

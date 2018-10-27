@@ -2,6 +2,7 @@ import Bot from "../../bot";
 import Discord from 'discord.js';
 import MingwieGame from "./mingwieGame";
 import Player from "../player";
+import GameManager from "../gameManager";
 
 
 class Round {
@@ -60,7 +61,7 @@ class Round {
             message += `Nobody got a single score :(`;
         }
         else {
-            var globalPlayer = MingwieGame.findGlobalPlayer(this.winner.user);
+            var globalPlayer = GameManager.findGlobalPlayer(this.winner.user);
             message += `The winner of this round is **${this.winner.user.username}** earning a total of ${scorePool} Mingie Gems!\n`;
             globalPlayer.score += scorePool;
             //console.log(globalPlayer.);

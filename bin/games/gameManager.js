@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mingwieGame_1 = __importDefault(require("./bombParty/mingwieGame"));
 const command_1 = __importDefault(require("../command"));
+const player_1 = __importDefault(require("./player"));
 //TODO
 class GameManager {
     constructor(channel) {
@@ -39,6 +40,22 @@ class GameManager {
     }
     onGameEnd() {
         this.activeGame = null;
+    }
+    static findGlobalPlayer(user) {
+        var player = null;
+        GameManager.players.forEach(element => {
+            if (element.user.id == user.id) {
+                player = element;
+            }
+        });
+        if (player != null) {
+            return player;
+        }
+        else {
+            var player = new player_1.default(user);
+            GameManager.players.push(player);
+            return player;
+        }
     }
 }
 GameManager.players = [];

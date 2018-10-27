@@ -15,7 +15,6 @@ class MingwieGame extends game_1.default {
         super(channel, endCall);
         this.maxRounds = 0;
         this.channel = channel;
-        this.currentRoundNumber = 1;
         this.activePlayers = [];
     }
     showLeaderboard() {
@@ -37,6 +36,7 @@ class MingwieGame extends game_1.default {
         bot_1.default.sendMessage(this.channel, msg);
     }
     start(args) {
+        this.currentRoundNumber = 1;
         if (args.length == 0) {
             this.maxRounds = 5;
         }
@@ -75,7 +75,7 @@ class MingwieGame extends game_1.default {
         }
         //After all rounds
         else {
-            bot_1.default.sendMessage(this.channel, `All rounds have ended. The reward system is still under development...`);
+            bot_1.default.sendMessage(this.channel, `All rounds have ended!`);
             this.endCall();
         }
     }
@@ -111,22 +111,6 @@ class MingwieGame extends game_1.default {
         else {
             var player = new player_1.default(user);
             this.activePlayers.push(player);
-            return player;
-        }
-    }
-    static findGlobalPlayer(user) {
-        var player = null;
-        gameManager_1.default.players.forEach(element => {
-            if (element.user.id == user.id) {
-                player = element;
-            }
-        });
-        if (player != null) {
-            return player;
-        }
-        else {
-            var player = new player_1.default(user);
-            gameManager_1.default.players.push(player);
             return player;
         }
     }
