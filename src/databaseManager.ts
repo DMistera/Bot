@@ -16,7 +16,7 @@ class DatabaseManager {
             this.client.query(
                 `
                 CREATE TABLE IF NOT EXISTS ${this.playerTableName} (
-                    userid char(255),
+                    userid char(255) UNIQUE,
                     score int
                 );
                 `, (err) => {
@@ -50,27 +50,22 @@ class DatabaseManager {
         })
         return result;
     }
-    static save() {
-        this.client.query(`TRUNCATE players;`, (err) => {
+    static save(players : Player[]) {
+        var values = "";
+        players.forEach((e) => {
+            values += `('${e.user.id}',${e.score}),`;
+        })
+        values = values.slice(0, -1);
+        var query = `
+            INSERT INTO players (userid, score)
+            VALUES ${values}
+            ON CONFLICT (userid) DO UPDATE
+                SET score = excluded.score;
+        `;
+        console.log(query);
+        this.client.query(query, (err) => {
             if(err) {
                 console.error(err);
-            }
-            else {
-                var players = GameManager.players;
-                var s = "";
-                players.forEach((e) => {
-                    s += `('${e.user.id}',${e.score}),`
-                })
-                s = s.slice(0, -1);
-                var query = `
-                INSERT INTO ${this.playerTableName} (userid, score)
-                VALUES ${s};
-                `;
-                this.client.query(query, (err, res) => {
-                    if(err) {
-                        console.error(err);
-                    }
-                })
             }
         })
     }

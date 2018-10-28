@@ -116,7 +116,7 @@ class GameManager {
             if (amount <= sender.score) {
                 sender.score -= amount;
                 receiver.score += amount;
-                databaseManager_1.default.save();
+                databaseManager_1.default.save([sender, receiver]);
                 var comment = bot_1.default.randResponse([
                     `That's kind of you >.<`,
                     `What a great hero!`,

@@ -69,7 +69,7 @@ class MingwieGame extends Game {
     }
 
     onRoundEnd() {
-        DatabaseManager.save();
+        DatabaseManager.save(this.activePlayers);
         if(this.currentRoundNumber < this.maxRounds) {
             this.currentRoundNumber++;
             this.currentRound = new Round(this.channel, this.currentRoundNumber, this.activePlayers, () => {
