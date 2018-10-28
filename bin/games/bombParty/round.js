@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const bot_1 = __importDefault(require("../../bot"));
 const mingwieGame_1 = __importDefault(require("./mingwieGame"));
-const gameManager_1 = __importDefault(require("../gameManager"));
 class Round {
     constructor(channel, number, players, endCall) {
         //Const
@@ -42,21 +41,24 @@ class Round {
                 bestTime = e.time;
                 this.winner = e;
             }
-            var score = this.scoreAnswer(e.longest);
-            scorePool += score;
-            if (score > 0) {
-                message += `**${e.user.username}** answered ${e.longest} (${e.longest.length} letters) worth **${score}** Mingie Gems!\n`;
-            }
-            e.reset();
+            scorePool += e.localScore;
+            message += `**${e.user.username}** answered ${e.longest} (${e.longest.length} letters) and earned **${e.localScore}** Mingie Gems!\n`;
         });
+        scorePool *= this.activePlayers.length;
         if (this.winner == null) {
             message += `Nobody got a single score :(`;
         }
         else {
-            var globalPlayer = gameManager_1.default.findGlobalPlayer(this.winner.user);
-            message += `The winner of this round is **${this.winner.user.username}** who answered **${bestWord}** and earned a total of **${scorePool}** Mingie Gems from all players!\n`;
-            globalPlayer.score += scorePool;
-            //console.log(globalPlayer.);
+            this.activePlayers.forEach((e) => {
+                if (e.user.id == this.winner.user.id) {
+                    e.score += scorePool;
+                }
+                else {
+                    e.score += e.localScore;
+                }
+                e.reset();
+            });
+            message += `The winner of this round is **${this.winner.user.username}** who answered **${bestWord}** and earned a total of **${scorePool}** Mingie Gems (multiplier : ${this.activePlayers.length})\n`;
         }
         bot_1.default.sendMessage(this.channel, message);
         this.endCall();
@@ -71,12 +73,13 @@ class Round {
         var p = this.activePlayers.find((e) => {
             return e.user.id == player.user.id;
         });
-        if (p == undefined) {
-            this.activePlayers.push(player);
-        }
         if (result == AnswerResults.CORRECT) {
+            if (p == undefined) {
+                this.activePlayers.push(player);
+            }
             if (player.updateLongest(message.content)) {
                 var score = this.scoreAnswer(message.content);
+                player.localScore = score;
                 var reaction = bot_1.default.randResponse([
                     "Nyaaa-haha, nice answer!",
                     "N-N-NANI?",
@@ -196,10 +199,9 @@ class Round {
         if (punishment > 1000) {
             punishment = 1000;
         }
-        var p = gameManager_1.default.findGlobalPlayer(player.user);
-        p.score -= punishment;
-        if (p.score < 0) {
-            p.score = 0;
+        player.score -= punishment;
+        if (player.score < 0) {
+            player.score = 0;
         }
         return punishment;
     }

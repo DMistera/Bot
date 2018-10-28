@@ -21,6 +21,7 @@ class GameManager {
     receiveMessage(msg) {
         if (msg.content.startsWith('!')) {
             var command = new command_1.default(msg);
+            var player = GameManager.findGlobalPlayer(msg.author);
             //This is a placehorder, it should be able to deal with multiple game types
             if (command.main == "play") {
                 if (this.activeGame == null) {
@@ -41,9 +42,20 @@ class GameManager {
                 var player = GameManager.findGlobalPlayer(msg.author);
                 bot_1.default.sendMessage(this.channel, `${player.user} You have ${player.score} Mingie Gems!`);
             }
-            else {
+            else if (command.main == "join") {
                 if (this.activeGame != null) {
-                    this.activeGame.readCommand(command);
+                    this.activeGame.addPlayer(player);
+                }
+                else {
+                    bot_1.default.sendMessage(this.channel, `There are no active games in this channel. Type !play to begin one!`);
+                }
+            }
+            else if (command.main == "stop") {
+                if (this.activeGame != null) {
+                    this.activeGame.stop();
+                }
+                else {
+                    bot_1.default.sendMessage(this.channel, `Baka! The game hasn't even begun and you already want to stop it!`);
                 }
             }
         }

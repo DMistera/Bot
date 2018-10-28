@@ -29,5 +29,4 @@ clientManager_1.default.client.login(process.env.DISCORD_TOKEN);
 Make database stable
 Make players global
 Fix punishment
-Me command
 */ 

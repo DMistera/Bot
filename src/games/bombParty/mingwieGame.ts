@@ -1,4 +1,4 @@
-import BombPlayer from '../player';
+import Player from '../player';
 import fs from 'fs';
 import Discord, { TextChannel, User } from 'discord.js';
 import Bot from '../../bot';
@@ -10,7 +10,7 @@ import DatabaseManager from '../../databaseManager';
 
 class MingwieGame extends Game {
 
-    activePlayers : BombPlayer[];
+    activePlayers : Player[];
     currentRoundNumber : number;
     currentRound : Round;
     static words : string[];
@@ -111,41 +111,7 @@ class MingwieGame extends Game {
         var content = fs.readFileSync('words.txt', 'utf8');
         this.words = content.split('\n');
     }
-
-    addPlayer(user : Discord.User) : void {
-        var add = true;
-        this.activePlayers.forEach((e) => {
-            if(e.user.id == user.id) {
-                add = false;
-            }
-        })
-        if(add) {
-            var player = new BombPlayer(user);
-            this.activePlayers.push(player);
-            Bot.sendMessage(this.channel, `${user} has joined the game!`);
-        }
-        else {
-            Bot.sendMessage(this.channel, `${user}, you are already in this game!`);
-        }
-    }
-
-        
-    findLocalPlayer(user : Discord.User) : BombPlayer {
-        var player : BombPlayer = null;
-        this.activePlayers.forEach(element => {
-            if(element.user.id == user.id) {
-                player = element;
-            }
-        });
-        if(player != null) {
-            return player;
-        }
-        else {
-            var player = new BombPlayer(user);
-            this.activePlayers.push(player);
-            return player;
-        }
-    }
+    
 }
 
 export default MingwieGame;

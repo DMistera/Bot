@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const player_1 = __importDefault(require("../player"));
 const fs_1 = __importDefault(require("fs"));
 const bot_1 = __importDefault(require("../../bot"));
 const round_1 = __importDefault(require("./round"));
@@ -98,38 +97,6 @@ class MingwieGame extends game_1.default {
     static loadDictionary() {
         var content = fs_1.default.readFileSync('words.txt', 'utf8');
         this.words = content.split('\n');
-    }
-    addPlayer(user) {
-        var add = true;
-        this.activePlayers.forEach((e) => {
-            if (e.user.id == user.id) {
-                add = false;
-            }
-        });
-        if (add) {
-            var player = new player_1.default(user);
-            this.activePlayers.push(player);
-            bot_1.default.sendMessage(this.channel, `${user} has joined the game!`);
-        }
-        else {
-            bot_1.default.sendMessage(this.channel, `${user}, you are already in this game!`);
-        }
-    }
-    findLocalPlayer(user) {
-        var player = null;
-        this.activePlayers.forEach(element => {
-            if (element.user.id == user.id) {
-                player = element;
-            }
-        });
-        if (player != null) {
-            return player;
-        }
-        else {
-            var player = new player_1.default(user);
-            this.activePlayers.push(player);
-            return player;
-        }
     }
 }
 MingwieGame.database = '.data/mingwie.json';

@@ -1,6 +1,7 @@
 import Player from './player';
 import Discord, { TextChannel } from 'discord.js';
 import Command from '../command';
+import Bot from '../bot';
 
 abstract class Game {
     constructor(channel : Discord.TextChannel, endCall : () => any) {
@@ -8,21 +9,27 @@ abstract class Game {
         this.endCall = endCall;
     }
 
-    //These commands should trigger only if the game is active
-    readCommand(command : Command) {
-        if(command.main == "join") {
-            this.addPlayer(command.author);
-        }
-        else if(command.main == "stop") {
-            this.stop();
-        }
-    }
-
     abstract receiveMessage(message : Discord.Message);
     abstract start(args : string[]);
-    abstract addPlayer(user : Discord.User) : void;
     abstract stop();
     abstract showLeaderboard();
+
+
+    addPlayer(player : Player) {
+        var add = true;
+        this.activePlayers.forEach((e) => {
+            if(e.user.id == player.user.id) {
+                add = false;
+            }
+        })
+        if(add) {
+            this.activePlayers.push(player);
+            Bot.sendMessage(this.channel, `${player.user} has joined the game!`);
+        }
+        else {
+            Bot.sendMessage(this.channel, `${player.user}, you are already in this game!`);
+        }
+    }
     endCall : () => any;
     activePlayers : Player[];
     channel : Discord.TextChannel;

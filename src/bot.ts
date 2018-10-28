@@ -16,6 +16,7 @@ class Bot {
     }
 
     public receiveMessage(message : Discord.Message) {
+
         if(message.author.bot) {
             return;
         }

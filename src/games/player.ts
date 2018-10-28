@@ -3,6 +3,7 @@ import Discord from "discord.js";
 
 class Player {
     score : number;
+    localScore : number;
     longest: string;
     time : number;
     updateLongest(answer : string) : boolean {
@@ -15,12 +16,13 @@ class Player {
     }
     reset() {
         this.longest = "";
-        this.score = 0;
+        this.localScore = 0;
     }
     constructor(user : Discord.User) {
         this.user = user;
         this.score = 0;
         this.longest = "";
+        this.localScore = 0;
     }
     user : Discord.User;
 }

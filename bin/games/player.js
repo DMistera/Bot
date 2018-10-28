@@ -11,12 +11,13 @@ class Player {
     }
     reset() {
         this.longest = "";
-        this.score = 0;
+        this.localScore = 0;
     }
     constructor(user) {
         this.user = user;
         this.score = 0;
         this.longest = "";
+        this.localScore = 0;
     }
 }
 exports.default = Player;
