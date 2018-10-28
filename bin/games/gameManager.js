@@ -46,6 +46,15 @@ class GameManager {
                     var player = GameManager.findGlobalPlayer(msg.author);
                     bot_1.default.sendMessage(this.channel, this.getProfile(player));
                     break;
+                case "spy":
+                    if (msg.mentions.users.size > 0) {
+                        var player = GameManager.findGlobalPlayer(msg.mentions.users.first());
+                        bot_1.default.sendMessage(this.channel, this.getProfile(player));
+                    }
+                    else {
+                        bot_1.default.sendMessage(this.channel, `You need to mention the victim of your vicious spying!`);
+                    }
+                    break;
                 case "join":
                     if (this.activeGame != null) {
                         this.activeGame.addPlayer(player);
@@ -98,10 +107,11 @@ class GameManager {
     }
     getProfile(player) {
         var rank = this.mingwieGame.getRank(player);
-        var result = `${player.user} You have ${player.score} Mingie Gems! (#${rank})`;
+        var result = `${player.user} has ${player.score} Mingie Gems! (#${rank})`;
         return result;
     }
     gift(sender, receiver, amount) {
+        amount = Math.floor(amount);
         if (amount > 0) {
             if (amount <= sender.score) {
                 sender.score -= amount;
