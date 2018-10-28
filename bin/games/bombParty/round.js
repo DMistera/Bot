@@ -207,14 +207,6 @@ class Round {
     }
     validateAnswer(answer) {
         var rawAnswer = answer.trim().toLowerCase();
-        if (!rawAnswer.includes(this.sequence)) {
-            if (rawAnswer.length > 20) {
-                return AnswerResults.ERR_CHEATING;
-            }
-            else {
-                return AnswerResults.ERR_DSNT_CONTAIN;
-            }
-        }
         var copying = false;
         this.activePlayers.forEach((e) => {
             if (e.longest.toLowerCase() === answer.toLowerCase()) {
@@ -233,7 +225,17 @@ class Round {
             }
         });
         if (inDict) {
-            return AnswerResults.CORRECT;
+            if (!rawAnswer.includes(this.sequence)) {
+                if (rawAnswer.length > 20) {
+                    return AnswerResults.ERR_CHEATING;
+                }
+                else {
+                    return AnswerResults.ERR_DSNT_CONTAIN;
+                }
+            }
+            else {
+                return AnswerResults.CORRECT;
+            }
         }
         else {
             return AnswerResults.ERR_NOT_IN_DICT;
