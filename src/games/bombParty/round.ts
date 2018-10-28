@@ -60,7 +60,7 @@ class Round {
         });
         scorePool *= this.activePlayers.length;
         if(this.winner == null) {
-            message += `Nobody got a single score :(`;
+            message += `Nobody got a single score :(\n`;
         }
         else {
             this.activePlayers.forEach((e) => {
