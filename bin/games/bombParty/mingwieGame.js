@@ -7,7 +7,6 @@ const fs_1 = __importDefault(require("fs"));
 const bot_1 = __importDefault(require("../../bot"));
 const round_1 = __importDefault(require("./round"));
 const game_1 = __importDefault(require("../game"));
-const gameManager_1 = __importDefault(require("../gameManager"));
 const databaseManager_1 = __importDefault(require("../../databaseManager"));
 class MingwieGame extends game_1.default {
     constructor(channel, endCall) {
@@ -16,22 +15,9 @@ class MingwieGame extends game_1.default {
         this.channel = channel;
     }
     showLeaderboard() {
-        gameManager_1.default.players.sort((a, b) => {
-            return b.score - a.score;
-        });
-        var msg = "";
-        if (gameManager_1.default.players.length < 1) {
-            msg += `Nobody played this game :(`;
-        }
-        else {
-            for (var i = 0; i < 10; i++) {
-                var player = gameManager_1.default.players[i];
-                if (player != null) {
-                    msg += `${i + 1}. **${player.user.tag}**: ${player.score} Mingie Gems.\n`;
-                }
-            }
-        }
-        bot_1.default.sendMessage(this.channel, msg);
+    }
+    sortComparator(a, b) {
+        return b.score - a.score;
     }
     start(args) {
         this.currentRoundNumber = 1;

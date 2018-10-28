@@ -10,7 +10,7 @@ import Bot from "../bot";
 class GameManager {
     constructor(channel : TextChannel) {
         this.channel = channel;
-        this.bombGame = new MingwieGame(channel, () => {
+        this.mingwieGame = new MingwieGame(channel, () => {
             this.onGameEnd();
         })
     }
@@ -18,7 +18,7 @@ class GameManager {
         MingwieGame.loadDictionary();
     }
     channel : TextChannel;
-    bombGame : MingwieGame;
+    mingwieGame : MingwieGame;
     activeGame : Game;
     static players: Player[] = [];
     receiveMessage(msg : Discord.Message) {
@@ -28,7 +28,7 @@ class GameManager {
             //This is a placehorder, it should be able to deal with multiple game types
             if(command.main == "play") {
                 if(this.activeGame == null) {
-                    this.activeGame = this.bombGame;
+                    this.activeGame = this.mingwieGame;
                     this.activeGame.start(command.arguments);
                 }
                 else {
@@ -36,14 +36,14 @@ class GameManager {
                 }
             }
             if(command.main == "top") {
-                this.bombGame.showLeaderboard();
+                this.mingwieGame.showLeaderboard();
             }
             else if(command.main == "help") {
                 Bot.sendMessage(this.channel, this.helpMessage());
             }
             else if(command.main == "me") {
                 var player = GameManager.findGlobalPlayer(msg.author);
-                Bot.sendMessage(this.channel, `${player.user} You have ${player.score} Mingie Gems!`);
+                Bot.sendMessage(this.channel, this.getProfile(player));
             }
             else if(command.main == "join") {
                 if(this.activeGame != null) {
@@ -67,6 +67,12 @@ class GameManager {
         }
     }
 
+    static sortPlayers() {
+        GameManager.players.sort((a, b) => {
+            return b.score - a.score;
+        });
+    }
+
     helpMessage() : string {
         return `
 **!help**  : displays this message
@@ -80,6 +86,12 @@ class GameManager {
 
     onGameEnd() {
         this.activeGame = null;
+    }
+
+    getProfile(player : Player) : string {
+        var rank = this.mingwieGame.getRank(player);
+        var result = `${player.user} You have ${player.score} Mingie Gems! (#${rank})`;
+        return result;
     }
 
     static findGlobalPlayer(user : Discord.User) : Player {

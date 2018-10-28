@@ -167,7 +167,8 @@ class Round {
                 `"${message.content}.", ${message.author.username} 2018. Truly meaningful!`,
                 `Step 1. ${message.content}, Step 2. ??? Step3. Profit.`,
                 `${message.content} is truly undesirable`,
-                `There exists a village named ${message.content}`
+                `There exists a village named ${message.content}`,
+                `${message.content} is the same as your life. It's meaningless...`
             ])
             msg += `${respone}`;
         }

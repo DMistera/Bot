@@ -11,7 +11,7 @@ const bot_1 = __importDefault(require("../bot"));
 class GameManager {
     constructor(channel) {
         this.channel = channel;
-        this.bombGame = new mingwieGame_1.default(channel, () => {
+        this.mingwieGame = new mingwieGame_1.default(channel, () => {
             this.onGameEnd();
         });
     }
@@ -25,7 +25,7 @@ class GameManager {
             //This is a placehorder, it should be able to deal with multiple game types
             if (command.main == "play") {
                 if (this.activeGame == null) {
-                    this.activeGame = this.bombGame;
+                    this.activeGame = this.mingwieGame;
                     this.activeGame.start(command.arguments);
                 }
                 else {
@@ -33,14 +33,14 @@ class GameManager {
                 }
             }
             if (command.main == "top") {
-                this.bombGame.showLeaderboard();
+                this.mingwieGame.showLeaderboard();
             }
             else if (command.main == "help") {
                 bot_1.default.sendMessage(this.channel, this.helpMessage());
             }
             else if (command.main == "me") {
                 var player = GameManager.findGlobalPlayer(msg.author);
-                bot_1.default.sendMessage(this.channel, `${player.user} You have ${player.score} Mingie Gems!`);
+                bot_1.default.sendMessage(this.channel, this.getProfile(player));
             }
             else if (command.main == "join") {
                 if (this.activeGame != null) {
@@ -63,6 +63,11 @@ class GameManager {
             this.activeGame.receiveMessage(msg);
         }
     }
+    static sortPlayers() {
+        GameManager.players.sort((a, b) => {
+            return b.score - a.score;
+        });
+    }
     helpMessage() {
         return `
 **!help**  : displays this message
@@ -75,6 +80,11 @@ class GameManager {
     }
     onGameEnd() {
         this.activeGame = null;
+    }
+    getProfile(player) {
+        var rank = this.mingwieGame.getRank(player);
+        var result = `${player.user} You have ${player.score} Mingie Gems! (#${rank})`;
+        return result;
     }
     static findGlobalPlayer(user) {
         var player = null;

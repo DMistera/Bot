@@ -1,5 +1,6 @@
 
 import Discord from "discord.js";
+import GameManager from "./gameManager";
 
 class Player {
     score : number;

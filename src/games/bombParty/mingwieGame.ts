@@ -24,22 +24,11 @@ class MingwieGame extends Game {
     }
 
     showLeaderboard() {
-        GameManager.players.sort((a, b) => {
-            return b.score - a.score;
-        });
-        var msg: string = "";
-        if(GameManager.players.length < 1) {
-            msg += `Nobody played this game :(`;
-        }
-        else {
-            for(var i = 0; i < 10; i++) {
-                var player = GameManager.players[i];
-                if(player != null) {
-                    msg += `${i + 1}. **${player.user.tag}**: ${player.score} Mingie Gems.\n`;
-                }
-            }
-        }
-        Bot.sendMessage(this.channel, msg);
+    }
+
+        
+    sortComparator(a: Player, b: Player): number {
+        return b.score - a.score;
     }
 
     start(args : string[]) {
