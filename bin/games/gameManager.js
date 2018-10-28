@@ -26,7 +26,9 @@ class GameManager {
             if (command.main == "play") {
                 if (this.activeGame == null) {
                     this.activeGame = this.mingwieGame;
-                    this.activeGame.start(command.arguments);
+                    if (!this.activeGame.start(command.arguments)) {
+                        this.activeGame = null;
+                    }
                 }
                 else {
                     bot_1.default.sendMessage(this.channel, `There is already an active game here!`);

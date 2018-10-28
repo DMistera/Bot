@@ -11,7 +11,7 @@ abstract class Game {
     }
 
     abstract receiveMessage(message : Discord.Message);
-    abstract start(args : string[]);
+    abstract start(args : string[]) : boolean;
     abstract stop();
     abstract sortComparator(a : Player, b : Player) : number;
 

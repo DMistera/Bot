@@ -34,9 +34,11 @@ class MingwieGame extends game_1.default {
                 });
                 this.currentRound.start();
             }, 5000);
+            return true;
         }
         else {
             bot_1.default.sendMessage(this.channel, `B-baka! You can't have that many rounds!`);
+            return false;
         }
     }
     stop() {

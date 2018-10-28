@@ -28,7 +28,7 @@ class MingwieGame extends Game {
         return b.score - a.score;
     }
 
-    start(args : string[]) {
+    start(args : string[]) : boolean {
         this.currentRoundNumber = 1;
         this.activePlayers = [];
         if(args.length == 0) {
@@ -45,9 +45,11 @@ class MingwieGame extends Game {
                 });
                 this.currentRound.start();
             }, 5000);
+            return true;
         } 
         else {
             Bot.sendMessage(this.channel, `B-baka! You can't have that many rounds!`);
+            return false;
         }
     }
 
