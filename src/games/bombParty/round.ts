@@ -214,10 +214,7 @@ class Round {
     }
 
     punish(answer : string, player : Player) : number {
-        var punishment = Math.pow(answer.length, 2);
-        if(punishment > 1000) {
-            punishment = 1000;
-        }
+        var punishment = Math.pow(answer.length, 3);
         player.score -= punishment;
         if(player.score < 0) {
             player.score = 0;
@@ -246,7 +243,7 @@ class Round {
         })
         if(inDict) {
             if(!rawAnswer.includes(this.sequence)) {
-                if(rawAnswer.length > 20) {
+                if(rawAnswer.length > 14) {
                     return AnswerResults.ERR_CHEATING;
                 }
                 else {
