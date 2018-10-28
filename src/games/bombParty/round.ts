@@ -17,6 +17,8 @@ class Round {
     longest : string = "";
     activePlayers: Player[];
     roundEndTimeout: NodeJS.Timeout;
+    roundEndDelayTimeout : NodeJS.Timeout;
+    ended : boolean;
     winner : Player;
 
     constructor(channel : Discord.TextChannel,  number : number, players : Player[],  endCall: () => any) {
@@ -25,6 +27,7 @@ class Round {
         this.endCall = endCall;
         this.roundEndTimeout = null;
         this.activePlayers = [];
+        this.ended = false;
     }
 
     start() {
@@ -71,8 +74,12 @@ class Round {
             })
             message += `The winner of this round is **${this.winner.user.username}** who answered **${bestWord}** and earned a total of **${scorePool}** Mingie Gems (multiplier : ${this.activePlayers.length})\n`;
         }
+        message += `Next round is starting in 3 seconds!\n`;
         Bot.sendMessage(this.channel, message);
-        this.endCall();
+        this.ended = true;
+        this.roundEndDelayTimeout = setTimeout(() => {
+            this.endCall();
+        }, 3000);
     }
 
     stop() {
@@ -80,118 +87,120 @@ class Round {
     }
 
     receiveMessage(message : Discord.Message, player : Player) {
-        var result = this.validateAnswer(message.content);
-        var msg = `${message.author} `;
+        if(!this.ended) {
+            var result = this.validateAnswer(message.content);
+            var msg = `${message.author} `;
 
-        //Add player if he's not there
-        var p = this.activePlayers.find((e) => {
-            return e.user.id == player.user.id;
-        });
+            //Add player if he's not there
+            var p = this.activePlayers.find((e) => {
+                return e.user.id == player.user.id;
+            });
 
-        if(result == AnswerResults.CORRECT) {
-            if(p == undefined) {
-                this.activePlayers.push(player);
+            if(result == AnswerResults.CORRECT) {
+                if(p == undefined) {
+                    this.activePlayers.push(player);
+                }
+                if(player.updateLongest(message.content)) {
+                    var score = this.scoreAnswer(message.content);
+                    player.localScore = score;
+                    var reaction = Bot.randResponse([
+                        "Nyaaa-haha, nice answer!",
+                        "N-N-NANI?",
+                        "Is this the true power of ultra instinct?",
+                        "You are too good!",
+                        "Wow 727!",
+                        "Blaze that!",
+                        "Are you insane?",
+                        "Ayaya!",
+                        "Mother of god!",
+                        "Greetings!",
+                        "Are you cheating?",
+                        "Do you like my face? No..? Same...",
+                        "Time to go.. even further.. beyond!",
+                        "/me dabs!",
+                        `Wheeeeeeee!`,
+                        `Eat me!`,
+                        `Nya!`,
+                        `Sometimes I wish I was a cat... A black cat... Anyways,`,
+                        `Let the games begin!`,
+                        `Hot shot!`,
+                        `Your path of an exile has begun!`,
+                        `Jackpot!`,
+                        `♂ Take ♂ it ♂ boy ♂`,
+                        `Amazing!`,
+                        `${message.content} is my life now!`,
+                        `You can see red sirens in the distance...`,
+                        `You have unlocked a special achievment... Just kidding!`,
+                        `Guys! We got a millionaire!`,
+                        `Unstopable force meets unmovable object!`,
+                        `It's dangerous to go alone!`,
+                        `Eleven stars!`,
+                        `C-C-C-COMBO BREAKER!`,
+                        `I see what you did here...`,
+                        `It is our inspiration that defines us!`,
+                        `The quick brown fox jumps over the lazy dog!`,
+                        `DVD Logo just hit the corner!`,
+                        `Tetris!`,
+                        `K.O.!`,
+                        `Taste the Rainbow!`,
+                        `Don't let your dreams be dreams!`,
+                        `What's the worst that could happen?`,
+                        `Yay! You did it! You finally did it!`
+                    ])
+                    msg += `${reaction} Your answer was worth **${score}** Mingie Gems!`;
+                }
+                else {
+                    msg += Bot.randResponse([
+                        "Good answer, but your last one was better.",
+                        "You can do better!"
+                    ]);
+                }
             }
-            if(player.updateLongest(message.content)) {
-                var score = this.scoreAnswer(message.content);
-                player.localScore = score;
-                var reaction = Bot.randResponse([
-                    "Nyaaa-haha, nice answer!",
-                    "N-N-NANI?",
-                    "Is this the true power of ultra instinct?",
-                    "You are too good!",
-                    "Wow 727!",
-                    "Blaze that!",
-                    "Are you insane?",
-                    "Ayaya!",
-                    "Mother of god!",
-                    "Greetings!",
-                    "Are you cheating?",
-                    "Do you like my face? No..? Same...",
-                    "Time to go.. even further.. beyond!",
-                    "/me dabs!",
-                    `Wheeeeeeee!`,
-                    `Eat me!`,
-                    `Nya!`,
-                    `Sometimes I wish I was a cat... A black cat... Anyways,`,
-                    `Let the games begin!`,
-                    `Hot shot!`,
-                    `Your path of an exile has begun!`,
-                    `Jackpot!`,
-                    `♂ Take ♂ it ♂ boy ♂`,
-                    `Amazing!`,
-                    `${message.content} is my life now!`,
-                    `You can see red sirens in the distance...`,
-                    `You have unlocked a special achievment... Just kidding!`,
-                    `Guys! We got a millionaire!`,
-                    `Unstopable force meets unmovable object!`,
-                    `It's dangerous to go alone!`,
-                    `Eleven stars!`,
-                    `C-C-C-COMBO BREAKER!`,
-                    `I see what you did here...`,
-                    `It is our inspiration that defines us!`,
-                    `The quick brown fox jumps over the lazy dog!`,
-                    `DVD Logo just hit the corner!`,
-                    `Tetris!`,
-                    `K.O.!`,
-                    `Taste the Rainbow!`,
-                    `Don't let your dreams be dreams!`,
-                    `What's the worst that could happen?`,
-                    `Yay! You did it! You finally did it!`
+            else if(result == AnswerResults.ERR_NOT_IN_DICT)  {
+                var respone = Bot.randResponse([
+                    "Learn dictionary, dumbass!",
+                    "Dumbass! This isn't even a word!",
+                    `Wh.. What? Where have you ever heard of such a word as ${message.content}`,
+                    `${message.content} is the same as your purpose. It doesnt exist.`,
+                    `Nice name for a company. Unfortunately not so good for this game!`,
+                    `Hi, my name is ${message.content}, can you find a real word?`,
+                    `I cry when ${message.content} deserve to die!`,
+                    `${message.content} is an illusion!`,
+                    `Why are you so in love with ${message.content}?`,
+                    `This would be a good pick up line: Would you like to see my ${message.content}, babe?`,
+                    `Baka! Baka! Baka! Where do you find such words?`,
+                    `If you like ${message.content} so much why don't you include it in your CV?`,
+                    `${message.content} was my teacher's name, not a word.`,
+                    `You found an easter egg! Just kidding, you don't even know the dictionary!`,
+                    `"${message.content}.", ${message.author.username} 2018. Truly meaningful!`,
+                    `Step 1. ${message.content}, Step 2. ??? Step3. Profit.`,
+                    `${message.content} is truly undesirable`,
+                    `There exists a village named ${message.content}`,
+                    `${message.content} is the same as your life. It's meaningless...`
                 ])
-                msg += `${reaction} Your answer was worth **${score}** Mingie Gems!`;
+                msg += `${respone}`;
             }
-            else {
+            else if(result == AnswerResults.ERR_COPYING)  {
                 msg += Bot.randResponse([
-                    "Good answer, but your last one was better.",
-                    "You can do better!"
-                ]);
+                    "You dummy! Don't copy other's answers!",
+                    "What a copy-pasta, nyan!"
+                ])
             }
+            else if(result == AnswerResults.ERR_CHEATING)  {
+                var pun = this.punish(message.content, player);
+                msg += `You failed to include the sequence but your word is suspiciously long. **${pun}** Mingie Gems has been taken from your account!`
+            }
+            else  {
+                var respone = Bot.randResponse([
+                    `Hey! You were supposed to include the sequence, dummy!`,
+                    `Hey dummy! Can't you even check the letters`,
+                    `Maybe you should go back to school and learn to include 3-letter sequences in your words!`,
+                    `Baka! You had one job! Include the magical sequence!`
+                ])
+                msg += respone;
+            }
+            Bot.sendMessage(this.channel, msg);
         }
-        else if(result == AnswerResults.ERR_NOT_IN_DICT)  {
-            var respone = Bot.randResponse([
-                "Learn dictionary, dumbass!",
-                "Dumbass! This isn't even a word!",
-                `Wh.. What? Where have you ever heard of such a word as ${message.content}`,
-                `${message.content} is the same as your purpose. It doesnt exist.`,
-                `Nice name for a company. Unfortunately not so good for this game!`,
-                `Hi, my name is ${message.content}, can you find a real word?`,
-                `I cry when ${message.content} deserve to die!`,
-                `${message.content} is an illusion!`,
-                `Why are you so in love with ${message.content}?`,
-                `This would be a good pick up line: Would you like to see my ${message.content}, babe?`,
-                `Baka! Baka! Baka! Where do you find such words?`,
-                `If you like ${message.content} so much why don't you include it in your CV?`,
-                `${message.content} was my teacher's name, not a word.`,
-                `You found an easter egg! Just kidding, you don't even know the dictionary!`,
-                `"${message.content}.", ${message.author.username} 2018. Truly meaningful!`,
-                `Step 1. ${message.content}, Step 2. ??? Step3. Profit.`,
-                `${message.content} is truly undesirable`,
-                `There exists a village named ${message.content}`,
-                `${message.content} is the same as your life. It's meaningless...`
-            ])
-            msg += `${respone}`;
-        }
-        else if(result == AnswerResults.ERR_COPYING)  {
-            msg += Bot.randResponse([
-                "You dummy! Don't copy other's answers!",
-                "What a copy-pasta, nyan!"
-            ])
-        }
-        else if(result == AnswerResults.ERR_CHEATING)  {
-            var pun = this.punish(message.content, player);
-            msg += `You failed to include the sequence but your word is suspiciously long. **${pun}** Mingie Gems has been taken from your account!`
-        }
-        else  {
-            var respone = Bot.randResponse([
-                `Hey! You were supposed to include the sequence, dummy!`,
-                `Hey dummy! Can't you even check the letters`,
-                `Maybe you should go back to school and learn to include 3-letter sequences in your words!`,
-                `Baka! You had one job! Include the magical sequence!`
-            ])
-            msg += respone;
-        }
-        Bot.sendMessage(this.channel, msg);
     }
 
     generateSequence() {
