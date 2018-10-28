@@ -14,8 +14,6 @@ class MingwieGame extends game_1.default {
         this.maxRounds = 0;
         this.channel = channel;
     }
-    showLeaderboard() {
-    }
     sortComparator(a, b) {
         return b.score - a.score;
     }

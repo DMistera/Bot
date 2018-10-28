@@ -23,9 +23,6 @@ class MingwieGame extends Game {
         this.channel = channel;
     }
 
-    showLeaderboard() {
-    }
-
         
     sortComparator(a: Player, b: Player): number {
         return b.score - a.score;
