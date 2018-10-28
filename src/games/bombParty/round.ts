@@ -84,6 +84,7 @@ class Round {
 
     stop() {
         clearTimeout(this.roundEndTimeout);
+        clearTimeout(this.roundEndDelayTimeout);
     }
 
     receiveMessage(message : Discord.Message, player : Player) {

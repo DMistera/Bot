@@ -70,6 +70,7 @@ class Round {
     }
     stop() {
         clearTimeout(this.roundEndTimeout);
+        clearTimeout(this.roundEndDelayTimeout);
     }
     receiveMessage(message, player) {
         if (!this.ended) {
