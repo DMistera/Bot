@@ -14,6 +14,9 @@ class MingwieGame extends game_1.default {
         this.maxRounds = 0;
         this.channel = channel;
     }
+    getStatus() {
+        return `**Players:** ${this.activePlayers.length}\n **Rounds:** ${this.currentRound}/${this.maxRounds}`;
+    }
     sortComparator(a, b) {
         return b.score - a.score;
     }

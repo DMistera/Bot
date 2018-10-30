@@ -79,6 +79,13 @@ class GameManager {
                         bot_1.default.sendMessage(this.channel, `You need to mention your receiver!`);
                     }
                     break;
+                case "status":
+                    if (this.activeGame != null) {
+                        bot_1.default.sendMessage(this.channel, this.activeGame.getStatus());
+                    }
+                    else {
+                        bot_1.default.sendMessage(this.channel, "There is no active game in this channel.");
+                    }
                 default:
                     break;
             }
@@ -100,6 +107,9 @@ class GameManager {
 **!join** : joins the game
 **!top** : shows leaderboard
 **!me** : shows your score
+**!give [mention] [amount]** : give mentioned user a certain amount of Mingie Gems.
+**!spy [mention]** : spy mentioned user, they may not like it.
+**!status** : shows game status.
         `;
     }
     onGameEnd() {
