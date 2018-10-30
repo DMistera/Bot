@@ -11,7 +11,7 @@ import DatabaseManager from '../../databaseManager';
 class MingwieGame extends Game {
 
     getStatus(): string {
-        return `**Players:** ${this.activePlayers.length}\n **Rounds:** ${this.currentRound}/${this.maxRounds}`;
+        return `**Players:** ${this.activePlayers.length}\n **Rounds:** ${this.currentRoundNumber}/${this.maxRounds}`;
     }
 
     activePlayers : Player[];
