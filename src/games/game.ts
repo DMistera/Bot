@@ -14,6 +14,7 @@ abstract class Game {
     abstract start(args : string[]) : boolean;
     abstract stop();
     abstract sortComparator(a : Player, b : Player) : number;
+    abstract getStatus() : string;
 
     showLeaderboard() {
         this.sort();

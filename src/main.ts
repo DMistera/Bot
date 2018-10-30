@@ -24,8 +24,3 @@ ClientManager.client.on('ready', () => {
     bot.init();
 }); 
 ClientManager.client.login(process.env.DISCORD_TOKEN);
-
-//TODO
-/*
-Make database stable
-*/

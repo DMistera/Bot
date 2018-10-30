@@ -10,6 +10,10 @@ import DatabaseManager from '../../databaseManager';
 
 class MingwieGame extends Game {
 
+    getStatus(): string {
+        return `**Players:** ${this.activePlayers.length}\n **Rounds:** ${this.currentRound}/${this.maxRounds}`;
+    }
+
     activePlayers : Player[];
     currentRoundNumber : number;
     currentRound : Round;
